@@ -1,4 +1,3 @@
-# 面试准备 #
 **2018-01-10 write by fxf at hz** 
 ## DB-MySQL ##
 ### 1,MySQL的三范式，并举例 ### 
