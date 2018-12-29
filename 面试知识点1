@@ -1,0 +1,62 @@
+1,你知道的java中创建对象的方式有哪些？
+	new  反射  clone()  反序列化
+	
+	clone()方法如何实现深拷贝？
+
+2，谈谈你对反射的理解。
+	1，反射可以在运行时加载和使用在编译期间未知的类
+	2，程序在运行中可动态加载一个只有名称的类，可获取和访问这个类中的所有属性和方法。
+	3，加载完之后，在堆内存中会生成一个Class类型的对象，（一个类只有一个Class对象），该对象包含了类的完整的结构信息，Class对象像镜子一样，通过可以看到类的全部信息，所有称之为反射。
+	工厂模式：不用反射，需要写接口，多个实现类，在工厂类中根据传入的类名new不同的子类对象；使用反射后，在工厂类中只需要传入子类的全限定名，使用反射获取子类对象。
+				当子类比较多时，不使用反射的工厂类要改好多，使用反射的工厂类不需要修改。
+	
+
+3，集合
+	Iterator和ListIterator的区别
+		Iterator可用来遍历Set和List集合，但是ListIterator只能用来遍历List。
+		Iterator对集合只能是前向遍历，ListIterator既可以前向遍历也可以后向遍历。
+		ListIterator实现了Iterator接口，并包含其他的功能，比如：增加、替换元素，获取前一个和后一个元素的索引等等。
+	
+	fail-fast机制
+    在遍历集合时，如果存在对集合的数据结构修改（如add,clear,remove时修改了modCount的值），则会出现ConcurrentModificationException，
+    if (modCount != expectedModCount) {
+       throw new ConcurrentModificationException();
+    }
+		
+		
+	list去重问题
+		转换为set集合，然后在加入到新的list中返回。基础类型可以直接转，对象类型需重写equals和hashCode方法
+	
+		
+
+4，Spring
+	对Spring中依赖注入两种方式的认识
+		构造方法注入和设值注入
+		在某些属性可选的情况下，多参数的构造器更加笨拙，官方更鼓励使用设值注入。
+		对于依赖关系无须变化的Bean，构造注入更有用处，因为没有setter方法，所有的依赖关系全部在构造器内设定，因此，不用担心后续代码对依赖关系的破坏。
+		如果我们对同一个变量同时使用了构造方法注入又使用了设置方法注入的话，那么构造方法将不能覆盖由设值方法注入的值。
+		建议采用以设值注入为主，构造注入为辅的注入策略。对于依赖关系无须变化的注入，尽量采用构造注入;而其他的依赖关系的注入，则考虑采用set注入。
+	
+	说一下Spring的核心模块
+		Spring Core【核心容器】：核心容器提供了Spring的基本功能。核心容器的核心功能是用IOC容器来管理类的依赖关系。
+		Spring AOP【面向切面】：Spring的AOP模块提供了面向切面编程的支持。SpringAOP采用的是纯Java实现，采用基于代理的AOP实现方案，AOP代理由IOC容器负责生成、管理，依赖关系也一并由IOC容器管理。
+		Spring ORM【对象实体映射】：提供了与多个第三方持久层框架的良好整合。
+		Spring DAO【持久层模块】： Spring进一步简化DAO开发步骤，能以一致的方式使用数据库访问技术，用统一的方式调用事务管理，避免具体的实现侵入业务逻辑层的代码中。
+		Spring Context【应用上下文】：它是一个配置文件，为Spring提供上下文信息，提供了框架式的对象访问方法。
+		Spring Web【Web模块】：提供了基础的针对Web开发的集成特性。
+		Spring MVC【MVC模块】：提供了Web应用的MVC实现。Spring的MVC框架并不是仅仅提供一种传统的实现，它提供了一种清晰的分离模型。
+		
+	Spring框架中都用到了哪些设计模式？
+		代理模式：在AOP和remoting中被用的比较多。
+		单例模式：在spring配置文件中定义的bean默认为单例模式。
+		模板方法模式：用来解决代码重复的问题。
+		前端控制器模式：Spring提供了DispatcherServlet来对请求进行分发。
+		依赖注入模式：贯穿于BeanFactory / ApplicationContext接口的核心理念。
+		工厂模式：BeanFactory用来创建对象的实例。
+
+5，Redis的5种数据结构
+	String: K-V，V可以是字符串或数字，最多可以是512M
+	Hash: K-V，v是一个HashMap，适合存储对象
+	List: 字符串列表，按插入顺序排序，底层双向链表，支持反向查找和遍历
+	Set: String类型的无序集合，它的内部实现是一个 value永远为null的HashMap,实际就是通过计算hash的方式来快速排重的
+	zset(有序): String类型元素的集合,且不允许重复的成员，不同的是每个元素都会关联一个double类型的分数，用来排序
